@@ -1,0 +1,13 @@
+name: "Run action w/ embedded script"
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  Run-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dbarbuzzi/actions/bundled-script@main
