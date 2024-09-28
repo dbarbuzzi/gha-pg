@@ -8,8 +8,15 @@ jobs:
   Run-Action:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: neuralmagic/nm-actions/actions/install-automation-components@v1.0.0
+      - uses: neuralmagic/nm-actions/actions/install-testmo@v1.0.0
 
-      - uses: dbarbuzzi/actions/actions/step-status@main
-        with:
-          status: '0'
+      - shell: bash
+        run: |
+          echo "== node =="
+          node --version
+          which node
+          echo "== node =="
+          npx --version
+          which npx
+          echo $PATH
