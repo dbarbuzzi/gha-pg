@@ -20,3 +20,9 @@ jobs:
           npx --version
           which npx
           echo $PATH
+
+      - uses: neuralmagic/nm-actions/actions/testmo-create-resources@dmk/testmo_resources_2
+        with:
+          testmo_token: "bobby"
+          resources_file: "resources.json"
+          resources_json: '{"monkey_see": "monkey_do"}'
