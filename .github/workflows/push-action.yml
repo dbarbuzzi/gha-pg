@@ -20,6 +20,18 @@ jobs:
         id: blessed
         run: echo "BLESSED=1" >> $GITHUB_OUTPUT
 
+      - name: redundant plain
+        if: success() && success()
+        run: echo "hi"
+
+      - name: redundant wrapped
+        if: ${{ success() && success() }}
+        run: echo "hi"
+
+      - name: redundant mixed
+        if: success() && ${{ success() }}
+        run: echo "hi"
+
       - name: doomed
         id: doomed
         run: |
