@@ -11,10 +11,6 @@ jobs:
       run:
         shell: bash
 
-    outputs:
-      blessed: steps.blessed.outputs.BLESSED
-      doomed: steps.doomed.outputs.DOOMED
-
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/python-shell
