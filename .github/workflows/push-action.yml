@@ -71,6 +71,6 @@ jobs:
       run:
         shell: bash
     needs: Skipper
-    if: needs.Skipper.result != 'kwyjibo'
+    if: always()
     steps:
       - run: echo "hi"
