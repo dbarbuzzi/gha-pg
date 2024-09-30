@@ -16,4 +16,5 @@ jobs:
       doomed: steps.doomed.outputs.DOOMED
 
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/python-shell
