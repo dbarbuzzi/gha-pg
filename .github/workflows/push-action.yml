@@ -52,6 +52,8 @@ jobs:
     defaults:
       run:
         shell: bash
+    steps:
+      - run: echo "hi"
 
   Follow-Up-A:
     runs-on: ubuntu-latest
@@ -60,6 +62,8 @@ jobs:
         shell: bash
     needs: [Run-Action]
     if: needs.Run-Action.outputs == '1'
+    steps:
+      - run: echo "hi"
 
   Follow-Up-B:
     runs-on: ubuntu-latest
@@ -68,3 +72,5 @@ jobs:
         shell: bash
     needs: Skipper
     if: needs.Skipper.result != 'kwyjibo'
+    steps:
+      - run: echo "hi"
