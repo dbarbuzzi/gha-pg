@@ -11,6 +11,10 @@ jobs:
       run:
         shell: bash
 
+    outputs:
+      blessed: steps.blessed.outputs.BLESSED
+      doomed: steps.doomed.outputs.DOOMED
+
     steps:
       - name: blessed
         id: blessed
@@ -61,7 +65,7 @@ jobs:
       run:
         shell: bash
     needs: [Run-Action]
-    if: needs.Run-Action.outputs == '1'
+    if: needs.Run-Action.outputs.doomed == '1' && ! cancelled()
     steps:
       - run: echo "hi"
 
