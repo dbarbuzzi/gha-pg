@@ -7,21 +7,24 @@ on:
 jobs:
   Run-Action:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
     steps:
-      # - uses: neuralmagic/nm-actions/actions/install-automation-components@v1.0.0
-      - uses: neuralmagic/nm-actions/actions/install-testmo@v1.0.0
+      - name: blessed
+        id: blessed
+        run: echo "BLESSED=1" >> $GITHUB_OUTPUT
 
-      - shell: bash
+      - name: doomed
+        id: doomed
         run: |
-          echo "== node =="
-          node --version
-          which node
-          echo "== node =="
-          npx --version
-          which npx
-          echo $PATH
+          echo "DOOMED=1" >> $GITHUB_OUTPUT
 
-      - uses: neuralmagic/nm-actions/actions/testmo-create-resources@db-resources
-        with:
-          resources_file: "resources.json"
-          resources_json: '{"monkey_see": "monkey_do"}'
+      - name: check s1
+        if: (success() || failure())
+        run: echo "hi"
+
+      - name: check s2
+        if: ${{ success() || failure() }}
+        run: echo "hi"
