@@ -1,0 +1,24 @@
+name: python subprocess shell=True vs. shell=None
+description: 'sets environment variables for llmcompressor'
+
+runs:
+  using: composite
+  steps:
+    - name: Update path, check for Python
+      id: needs_python
+      shell: bash
+      run: |
+        echo "${{ github.action_path }}" >> $GITHUB_PATH
+        if ! command -v python; then
+          echo "NEEDS_PYTHON=1" >> $GITHUB_OUTPUT
+        else
+          echo "NEEDS_PYTHON=0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: setup python
+      if: steps.needs_python.outputs.NEEDS_PYTHON == '1'
+      uses: actions/setup-python@v5
+
+    - name: run python script
+      shell: bash
+      run: sample.py
