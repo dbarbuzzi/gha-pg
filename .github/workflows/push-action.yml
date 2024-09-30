@@ -37,3 +37,11 @@ jobs:
       - name: check a2
         if: ${{ success() || failure() && steps.doomed.outputs.DOOMED == '1' }}
         run: echo "hi"
+
+      - name: check a2
+        if: ${{ (success() || failure()) && steps.doomed.outputs.DOOMED == '1' }}
+        run: echo "hi"
+
+      - name: check a2c
+        if: (success() || failure()) && steps.doomed.outputs.DOOMED == '1'
+        run: echo "hi"
