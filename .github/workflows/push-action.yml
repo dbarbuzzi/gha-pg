@@ -20,6 +20,7 @@ jobs:
         id: doomed
         run: |
           echo "DOOMED=1" >> $GITHUB_OUTPUT
+          exit 1
 
       - name: check s1
         if: (success() || failure())
@@ -27,4 +28,12 @@ jobs:
 
       - name: check s2
         if: ${{ success() || failure() }}
+        run: echo "hi"
+
+      - name: check a1
+        if: (success() || failure()) && ${{ steps.doomed.outputs.DOOMED == '1' }}
+        run: echo "hi"
+
+      - name: check a2
+        if: ${{ success() || failure() && steps.doomed.outputs.DOOMED == '1' }}
         run: echo "hi"
