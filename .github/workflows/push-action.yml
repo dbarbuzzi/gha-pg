@@ -12,5 +12,6 @@ jobs:
         shell: bash
 
     steps:
+      - run: echo "${{ github.event_name }}"
       - uses: actions/checkout@v4
       - uses: ./.github/actions/python-shell
