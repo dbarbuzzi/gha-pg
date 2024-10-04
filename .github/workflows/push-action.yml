@@ -17,4 +17,5 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: dbarbuzzi/actions
+          path: some-actions
       - uses: ./.github/actions/python-shell
