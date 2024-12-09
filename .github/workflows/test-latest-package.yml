@@ -17,11 +17,13 @@ jobs:
 
       - uses: neuralmagic/nm-actions/actions/get-pypi-latest-versions@fix-pypi-latest-version
         id: get-one
+        name: get-pypi-latest-versions (get-one)
         with:
           package_name: "vllm"
           num_of_latest: "1"
       - uses: neuralmagic/nm-actions/actions/get-pypi-latest-versions@fix-pypi-latest-version
         id: get-five
+        name: get-pypi-latest-versions (get-five)
         with:
           package_name: "vllm"
           num_of_latest: "5"
