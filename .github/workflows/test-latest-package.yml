@@ -1,0 +1,32 @@
+name: "on-push action"
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test-latest-package:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - run: echo "${{ github.event_name }}"
+      - uses: actions/checkout@v4
+
+      - uses: neuralmagic/nm-actions/actions/get-pypi-latest-versions@fix-pypi-latest-version
+        id: get-one
+        with:
+          package_name: "vllm"
+          num_of_latest: "1"
+      - uses: neuralmagic/nm-actions/actions/get-pypi-latest-versions@fix-pypi-latest-version
+        id: get-five
+        with:
+          package_name: "vllm"
+          num_of_latest: "five"
+
+      - name: display results
+        run: |
+          echo "get-one: ${{ steps.get-one.outputs.versions }}"
+          echo "get-five: ${{ steps.get-five.outputs.versions }}"
