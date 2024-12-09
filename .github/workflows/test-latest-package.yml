@@ -24,7 +24,7 @@ jobs:
         id: get-five
         with:
           package_name: "vllm"
-          num_of_latest: "five"
+          num_of_latest: "5"
 
       - name: display results
         run: |
