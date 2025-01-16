@@ -1,12 +1,14 @@
-name: "on-push action"
+name: "on-read-labeled PR action"
 
 on:
-  push:
-  workflow_dispatch:
+  pull_request:
+    branches: main
+    types: [ labeled, synchronize ]
 
 jobs:
-  Run-Action:
+  PR-TEST-REDUX:
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'ready')
     defaults:
       run:
         shell: bash
