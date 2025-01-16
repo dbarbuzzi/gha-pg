@@ -7,7 +7,7 @@ from pathlib import Path
 
 def print_env_vars(**kwargs):
     res = subprocess.check_output("env", cwd=Path.cwd(), encoding="utf-8", **kwargs)
-    print(sorted(res.splitlines()))
+    print("\n".join(sorted(res.splitlines())))
 
 
 print("::group::shell=[default]", flush=True)
