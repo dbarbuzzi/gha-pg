@@ -3,6 +3,7 @@
 import os
 import subprocess
 from pathlib import Path
+from typing import Any
 
 
 def print_env_vars(**kwargs):
@@ -10,17 +11,13 @@ def print_env_vars(**kwargs):
     print("\n".join(sorted(res.splitlines())))
 
 
-print("::group::shell=[default]", flush=True)
-# subprocess.run("env")
-print_env_vars()
-print("::endgroup::")
+groups: dict[str, dict[str, Any]] = {
+    "kwargs={}": {},
+    "kwargs={shell=True}": {"shell": True},
+    "kwargs={shell=True,env=os.environ}": {"shell": True, "env": os.environ},
+}
 
-print("::group::shell=True", flush=True)
-# subprocess.run("env", shell=True)
-print_env_vars(shell=True)
-print("::endgroup::")
-
-print("::group::shell=True & env=os.environ", flush=True)
-# subprocess.run("env", shell=True)
-print_env_vars(shell=True, env=os.environ)
-print("::endgroup::")
+for label, kwargs in groups.items():
+    print(f"::group::{label}")
+    print_env_vars(**kwargs)
+    print("::endgroup::")
