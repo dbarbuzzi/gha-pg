@@ -20,6 +20,6 @@ groups: dict[str, dict[str, Any]] = {
 for label, kwargs in groups.items():
     print(f"::group::{label}")
     env_vars = get_env_vars(**kwargs)
-    print(f"found {len(env_vars)} env vars:")
+    print(f"Found {len(env_vars)} env vars:")
     print("\n".join(sorted(env_vars)))
     print("::endgroup::")
