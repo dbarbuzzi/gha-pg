@@ -3,12 +3,12 @@ name: "on-read-labeled PR action"
 on:
   pull_request:
     branches: main
-    types: labeled
+    types: [ labeled, synchronize ]
 
 jobs:
   PR-TEST-REDUX:
     runs-on: ubuntu-latest
-    if: ${{ github.event.label.name == 'ready' }}
+    if: contains(github.event.pull_request.labels.*.name, 'ready')
     defaults:
       run:
         shell: bash
