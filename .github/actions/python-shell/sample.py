@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Any
 
 
-def print_env_vars(**kwargs):
+def get_env_vars(**kwargs) -> list[str]:
     res = subprocess.check_output("env", cwd=Path.cwd(), encoding="utf-8", **kwargs)
-    print("\n".join(sorted(res.splitlines())))
+    return sorted(res.splitlines())
 
 
 groups: dict[str, dict[str, Any]] = {
@@ -19,5 +19,7 @@ groups: dict[str, dict[str, Any]] = {
 
 for label, kwargs in groups.items():
     print(f"::group::{label}")
-    print_env_vars(**kwargs)
+    env_vars = get_env_vars(**kwargs)
+    print(f"Found {len(env_vars)} env vars:")
+    print("\n".join(sorted(env_vars)))
     print("::endgroup::")

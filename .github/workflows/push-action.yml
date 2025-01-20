@@ -3,7 +3,9 @@ name: "on-read-labeled PR action"
 on:
   pull_request:
     branches: main
-    types: [ labeled, synchronize ]
+    types: [labeled, synchronize]
+  push:
+    branches: main
 
 jobs:
   PR-TEST-REDUX:
