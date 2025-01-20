@@ -10,7 +10,7 @@ on:
 jobs:
   PR-TEST-REDUX:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'ready')
+    if: github.event == 'push' || contains(github.event.pull_request.labels.*.name, 'ready')
     defaults:
       run:
         shell: bash
