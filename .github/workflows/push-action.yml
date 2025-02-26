@@ -23,6 +23,7 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           files: |
+            ./**
             !examples/**
             !tests/e2e/**
             !tests/lmeval/**
