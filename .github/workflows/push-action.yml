@@ -5,6 +5,7 @@ on:
     branches: main
     types: [labeled, synchronize]
   push:
+    branches: main
 
 jobs:
   DETECTION:
