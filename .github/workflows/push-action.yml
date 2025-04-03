@@ -12,7 +12,7 @@ jobs:
 
     env:
       NAME: "John Doe"
-      UNCERTAIN: ${NAME}
+      UNCERTAIN: ${NAME} - ${{ github.env.NAME }}
 
     steps:
       - run: echo "${{ github.event_name }}"
