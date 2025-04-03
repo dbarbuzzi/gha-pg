@@ -1,52 +1,22 @@
 name: "on-read-labeled PR action"
 
-on:
-  pull_request:
-    branches: main
-    types: [labeled, synchronize]
-  push:
-    branches: main
+on: [push]
 
 jobs:
-  DETECTION:
-    runs-on: ubuntu-latest
-
-    outputs:
-      changes-present: ${{ steps.changed-files.outputs.any_modified }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: |
-            **
-            !examples/**
-            !tests/e2e/**
-            !tests/lmeval/**
-            !tests/examples/**
-            !**/*.md
-            !.github/**
-            .github/workflows/push-action.yml
-      - name: Log relevant output
-        run: |
-          echo "changes-present: ${{ steps.changed-files.outputs.any_modified }}"
-          echo "all modified files: ${{ steps.changed-files.outputs.all_modified_files }}"
-        shell: bash
 
   PR-TEST-REDUX:
-    needs: [DETECTION]
     runs-on: ubuntu-latest
-    if: (github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'ready')) && needs.DETECTION.outputs.changes-present == 'true'
     defaults:
       run:
         shell: bash
 
+    env:
+      NAME: "John Doe"
+      UNCERTAIN: ${NAME}
+
     steps:
       - run: echo "${{ github.event_name }}"
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/python-shell
+      - run: echo "NAME=${NAME}"
+      - run: echo "UNCERTAIN=${UNCERTAIN}"
+      # - uses: actions/checkout@v4
+      # - uses: ./.github/actions/python-shell
