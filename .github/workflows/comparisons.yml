@@ -20,3 +20,6 @@ jobs:
       - name: 'if: ${{ steps.outputs.outputs.zero == ''0'' }}'
         if: ${{ steps.outputs.outputs.zero == '0' }}
         run: echo "hi!"
+      - name: 'if: ${{ steps.outputs.outputs.one == ''0'' }}'
+        if: ${{ steps.outputs.outputs.one == '0' }}
+        run: echo "hi!"
