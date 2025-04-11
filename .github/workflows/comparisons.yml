@@ -10,9 +10,9 @@ jobs:
       - id: outputs
         uses: ./.github/actions/outputs
 
-      - name: asdasdsad
+      - name: 'if: ${{ steps.outputs.outputs.zero }}'
         if: ${{ steps.outputs.outputs.zero }}
         run: echo "hi!"
-      - name: asdasdsad
+      - name: 'if: ${{ steps.outputs.outputs.one }}'
         if: ${{ steps.outputs.outputs.one }}
         run: echo "hi!"
