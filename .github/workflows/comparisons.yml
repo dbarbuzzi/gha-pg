@@ -1,0 +1,18 @@
+name: checking out comparisons
+
+on: [push]
+
+jobs:
+  COMPARISONS:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: outputs
+        uses: ./.github/actions/outputs
+
+      - name: asdasdsad
+        if: ${{ steps.outputs.outputs.zero }}
+        run: echo "hi!"
+      - name: asdasdsad
+        if: ${{ steps.outputs.outputs.one }}
+        run: echo "hi!"

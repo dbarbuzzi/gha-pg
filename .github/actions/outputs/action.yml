@@ -1,0 +1,20 @@
+name: outputs
+description: outputs
+
+outputs:
+  zero:
+    description: '0'
+    value: ${{ steps.outputs.outputs.zero }}
+  one:
+    description: '1'
+    value: ${{ steps.outputs.outputs.one }}
+
+runs:
+  using: composite
+
+  steps:
+    - id: outputs
+      run: |-
+        echo "zero=0" | tee -a "${GITHUB_OUTPUT}"
+        echo "one=1" | tee -a "${GITHUB_OUTPUT}"
+      shell: bash
