@@ -13,16 +13,14 @@ runs:
   using: composite
 
   steps:
-    - id: input-one interpolation with/without negation
-      run: |-
+    - run: |-
         # expand me!
         # {{ inputs.input-one }}
         echo "${{ inputs.input-one }}"
         # {{ ! inputs.input-one }}
         echo "${{ ! inputs.input-one }}"
       shell: bash
-    - id: input-two interpolation with/without negation
-      run: |-
+    - run: |-
         # expand me!
         # {{ inputs.input-two }}
         echo "${{ inputs.input-two }}"
