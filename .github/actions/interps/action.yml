@@ -8,22 +8,44 @@ inputs:
   input-two:
     description: "true or false"
     required: true
+  input-three:
+    description: "true or false"
+    required: false
+    default: true
+  input-four:
+    description: "true or false"
+    required: false
+    default: false
 
 runs:
   using: composite
 
   steps:
     - run: |-
-        # expand me!
+        # expand me for input-one
         # {{ inputs.input-one }}
         echo "${{ inputs.input-one }}"
         # {{ ! inputs.input-one }}
         echo "${{ ! inputs.input-one }}"
       shell: bash
     - run: |-
-        # expand me!
+        # expand me for input-two
         # {{ inputs.input-two }}
         echo "${{ inputs.input-two }}"
         # {{ ! inputs.input-two }}
         echo "${{ ! inputs.input-two }}"
+      shell: bash
+    - run: |-
+        # expand me for input-three
+        # {{ inputs.input-three }}
+        echo "${{ inputs.input-three }}"
+        # {{ ! inputs.input-three }}
+        echo "${{ ! inputs.input-three }}"
+      shell: bash
+    - run: |-
+        # expand me for input-four
+        # {{ inputs.input-four }}
+        echo "${{ inputs.input-four }}"
+        # {{ ! inputs.input-four }}
+        echo "${{ ! inputs.input-four }}"
       shell: bash
