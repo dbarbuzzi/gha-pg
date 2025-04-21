@@ -1,0 +1,31 @@
+name: interpolation checks
+description: interpolation checks
+
+inputs:
+  input-one:
+    description: "true or false"
+    required: true
+  input-two:
+    description: "true or false"
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - id: input-one interpolation with/without negation
+      run: |-
+        # expand me!
+        # {{ inputs.input-one }}
+        echo "${{ inputs.input-one }}"
+        # {{ ! inputs.input-one }}
+        echo "${{ ! inputs.input-one }}"
+      shell: bash
+    - id: input-two interpolation with/without negation
+      run: |-
+        # expand me!
+        # {{ inputs.input-two }}
+        echo "${{ inputs.input-two }}"
+        # {{ ! inputs.input-two }}
+        echo "${{ ! inputs.input-two }}"
+      shell: bash
