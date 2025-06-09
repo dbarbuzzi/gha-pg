@@ -25,13 +25,13 @@ jobs:
             label: k8s-a100-duo
             timeout: 180
         exclude:
-          - python: 3.10
-            label: k8s-a100-quad
-            timeout: 180
+          - test-config.python: 3.10
+            test-config.label: k8s-a100-quad
+            test-config.timeout: 180
             is_weekly_or_release: false
-          - python: 3.11
-            label: k8s-h100-duo
-            timeout: 150
+          - test-config.python: 3.11
+            test-config.label: k8s-h100-duo
+            test-config.timeout: 150
             is_weekly_or_release: false
 
     uses: ./.github/workflows/run-tests.yml
