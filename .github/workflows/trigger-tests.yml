@@ -1,0 +1,58 @@
+name: Trigger tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      category:
+        description: run category
+        required: true
+        type: choice
+        options:
+          - NIGHTLY
+          - WEEKLY
+          - RELEASE
+
+jobs:
+  Run-Nightly-Tests:
+    name: Run Nightly Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: 3.9
+            label: k8s-h100-solo
+            timeout: 150
+          - python: 3.12
+            label: k8s-a100-duo
+            timeout: 180
+    if: inputs.category == 'NIGHTLY'
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      label: ${{ matrix.label }}
+      python: ${{ matrix.python }}
+      timeout: ${{ matrix.timeout }}
+
+  Run-Weekly-Tests:
+    name: Run Weekly Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: 3.9
+            label: k8s-h100-solo
+            timeout: 150
+          - python: 3.10
+            label: k8s-a100-quad
+            timeout: 180
+          - python: 3.11
+            label: k8s-h100-duo
+            timeout: 150
+          - python: 3.12
+            label: k8s-a100-duo
+            timeout: 180
+    if: inputs.category != 'NIGHTLY'
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      label: ${{ matrix.label }}
+      python: ${{ matrix.python }}
+      timeout: ${{ matrix.timeout }}

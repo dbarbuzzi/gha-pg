@@ -1,0 +1,29 @@
+name: run tests
+
+on:
+  workflow_call:
+    inputs:
+      label:
+        description: label for test runner
+        type: string
+        required: true
+      python:
+        description: python version to use
+        type: string
+        required: true
+      timeout:
+        description: timeout (minutes)
+        type: string
+        required: true
+
+jobs:
+  Run-Tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log inputs
+        run: |-
+          echo "inputs.label=${{ inputs.label }}"
+          echo "inputs.python=${{ inputs.python }}"
+          echo "inputs.timeout=${{ inputs.timeout }}"
+        shell: bash
