@@ -15,6 +15,10 @@ on:
         description: timeout (minutes)
         type: string
         required: true
+      locality:
+        description: source install
+        type: boolean
+        required: true
 
 jobs:
   Run-Tests:
@@ -27,3 +31,11 @@ jobs:
           echo "inputs.python=${{ inputs.python }}"
           echo "inputs.timeout=${{ inputs.timeout }}"
         shell: bash
+
+      - name: boolean comp
+        if: ${{ inputs.locality == true }}
+        run: echo "hello, world!"
+
+      - name: string comp
+        if: ${{ inputs.locality == 'true' }}
+        run: echo "hello, world!"

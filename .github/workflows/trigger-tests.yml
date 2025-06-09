@@ -32,6 +32,7 @@ jobs:
       label: ${{ matrix.label }}
       python: ${{ matrix.python }}
       timeout: ${{ matrix.timeout }}
+      locality: true
 
   Run-Weekly-Tests:
     name: Run Weekly Tests
@@ -57,3 +58,4 @@ jobs:
       label: ${{ matrix.label }}
       python: ${{ matrix.python }}
       timeout: ${{ matrix.timeout }}
+      locality: true
