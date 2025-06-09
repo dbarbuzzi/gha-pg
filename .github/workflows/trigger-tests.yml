@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         is_weekly_or_release: ["false"]
-        include:
+        test-config:
           - python: 3.9
             label: k8s-h100-solo
             timeout: 150
@@ -36,9 +36,9 @@ jobs:
 
     uses: ./.github/workflows/run-tests.yml
     with:
-      label: ${{ matrix.label }}
-      python: ${{ matrix.python }}
-      timeout: ${{ matrix.timeout }}
+      label: ${{ matrix.test-config.label }}
+      python: ${{ matrix.test-config.python }}
+      timeout: ${{ matrix.test-config.timeout }}
 
   Run-Weekly-Tests:
     name: Run Weekly Tests
