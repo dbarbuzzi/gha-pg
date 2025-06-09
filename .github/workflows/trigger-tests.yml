@@ -1,8 +1,16 @@
 name: Trigger tests
 
 on:
-  push:
   workflow_dispatch:
+    inputs:
+      category:
+        description: run category
+        required: true
+        type: choice
+        options:
+          - NIGHTLY
+          - WEEKLY
+          - RELEASE
 
 jobs:
   Run-Nightly-Tests:
@@ -17,6 +25,7 @@ jobs:
           - python: 3.12
             label: k8s-a100-duo
             timeout: 180
+    if: inputs.category == 'NIGHTLY'
     uses: ./.github/workflows/run-tests.yml
     with:
       label: ${{ matrix.label }}
@@ -41,7 +50,7 @@ jobs:
           - python: 3.12
             label: k8s-a100-duo
             timeout: 180
-
+    if: inputs.category != 'NIGHTLY'
     uses: ./.github/workflows/run-tests.yml
     with:
       label: ${{ matrix.label }}
