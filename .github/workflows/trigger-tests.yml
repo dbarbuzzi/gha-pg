@@ -42,7 +42,7 @@ jobs:
       fail-fast: false
       matrix:
         is_weekly_or_release: ["true"]
-        include:
+        test-config:
           - python: 3.9
             label: k8s-h100-solo
             timeout: 150
@@ -56,13 +56,9 @@ jobs:
             label: k8s-a100-duo
             timeout: 180
         exclude:
-          - python: 3.10
-            label: k8s-a100-quad
-            timeout: 180
+          - test-config: 3.10
             is_weekly_or_release: false
-          - python: 3.11
-            label: k8s-h100-duo
-            timeout: 150
+          - test-config: 3.11
             is_weekly_or_release: false
 
     uses: ./.github/workflows/run-tests.yml
