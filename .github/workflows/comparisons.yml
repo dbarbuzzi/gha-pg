@@ -1,25 +1,47 @@
-name: checking out comparisons
+name: checking out comparisons with 'none'
 
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      zero:
+        description: branch-one
+        required: true
+        type: string
+        default: 'main'
+      one:
+        description: branch-two
+        required: false
+        type: string
+        default: 'main'
 
 jobs:
   COMPARISONS:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: outputs
-        uses: ./.github/actions/outputs
 
-      - name: 'if: ${{ steps.outputs.outputs.zero }}'
-        if: ${{ steps.outputs.outputs.zero }}
-        run: echo "hi!"
-      - name: 'if: ${{ steps.outputs.outputs.one }}'
-        if: ${{ steps.outputs.outputs.one }}
-        run: echo "hi!"
+      - name: Log inputs
+        run: |-
+          echo "inputs.zero=${{ inputs.zero }}"
+          echo "inputs.one=${{ inputs.one }}"
+        shell: bash
 
-      - name: 'if: ${{ steps.outputs.outputs.zero == ''0'' }}'
-        if: ${{ steps.outputs.outputs.zero == '0' }}
-        run: echo "hi!"
-      - name: 'if: ${{ steps.outputs.outputs.one == ''0'' }}'
-        if: ${{ steps.outputs.outputs.one == '0' }}
-        run: echo "hi!"
+      - name: required input
+        uses: ./.github/actions/compare
+        with:
+          branch: ${{ inputs.zero }}
+
+      - name: optional input
+        uses: ./.github/actions/compare
+        with:
+          branch: ${{ inputs.one }}
+
+      - name: required input
+        uses: ./.github/actions/compare
+        with:
+          branch: ${{ inputs.zero || 'default' }}
+
+      - name: optional input
+        uses: ./.github/actions/compare
+        with:
+          branch: ${{ inputs.one || 'default' }}
