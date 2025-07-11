@@ -1,0 +1,16 @@
+name: compare
+description: compare
+
+inputs:
+  branch:
+    description: branch to compare against
+    required: true
+    default: 'main'
+
+
+runs:
+  using: composite
+
+  steps:
+    - run: echo "${{ inputs.branch }}"
+      shell: bash
