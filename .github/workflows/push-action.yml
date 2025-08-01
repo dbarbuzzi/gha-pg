@@ -2,10 +2,10 @@ name: "on-read-labeled PR action"
 
 on:
   pull_request:
-    branches: main
+    branches: [main]
     types: [labeled, synchronize]
   push:
-    branches: main
+    branches: [main]
 
 jobs:
   PR-TEST-REDUX:
@@ -19,3 +19,11 @@ jobs:
       - run: echo "${{ github.event_name }}"
       - uses: actions/checkout@v4
       - uses: ./.github/actions/python-shell
+
+  COMPARISONS:
+    strategy:
+      matrix:
+        enable_cc: [true, false]
+    uses: ./.github/workflows/comparisons-boolean.yml
+    with:
+      enable_cc: ${{ matrix.enable_cc }}

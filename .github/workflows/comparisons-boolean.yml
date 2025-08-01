@@ -1,0 +1,36 @@
+name: checking out comparisons with 'none'
+
+on:
+  workflow_call:
+    inputs:
+      enable_cc:
+        description: Enable code coverage
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  COMPARISONS:
+    runs-on: ubuntu-latest
+    name: COMPARISONS (${{ inputs.enable_cc }})
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log inputs
+        run: echo "inputs.enable=${{ inputs.enable_cc }}"
+
+      - name: run if true (braced)
+        if: ${{ inputs.enable_cc == true }}
+        run: echo "howdy!"
+
+      - name: run if true (unbraced)
+        if: inputs.enable_cc == true
+        run: echo "howdy!"
+
+      - name: run if 'true' (braced)
+        if: ${{ inputs.enable_cc == 'true' }}
+        run: echo "howdy!"
+
+      - name: run if 'true' (unbraced)
+        if: inputs.enable_cc == 'true'
+        run: echo "howdy!"
