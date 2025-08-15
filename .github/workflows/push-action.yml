@@ -2,20 +2,16 @@ name: "on-read-labeled PR action"
 
 on:
   pull_request:
-    branches: main
+    branches: [main]
     types: [labeled, synchronize]
   push:
-    branches: main
+    branches: [main]
 
 jobs:
-  PR-TEST-REDUX:
+  UV:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'ready')
-    defaults:
-      run:
-        shell: bash
-
     steps:
-      - run: echo "${{ github.event_name }}"
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/python-shell
+      - name: Install a semver range of uv
+        uses: astral-sh/setup-uv@v6
+      - name: Install a semver range of uv
+        uses: astral-sh/setup-uv@v6
