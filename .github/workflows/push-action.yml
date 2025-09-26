@@ -1,9 +1,6 @@
-name: "on-read-labeled PR action"
+name: on-push action
 
 on:
-  pull_request:
-    branches: [main]
-    types: [labeled, synchronize]
   push:
     branches: [main]
 
@@ -11,7 +8,8 @@ jobs:
   UV:
     runs-on: ubuntu-latest
     steps:
-      - name: Install a semver range of uv
-        uses: astral-sh/setup-uv@v6
-      - name: Install a semver range of uv
-        uses: astral-sh/setup-uv@v6
+      - name: fails but continues
+        run: exit 1
+        continue-on-error: true
+      - name: passes
+        run: exit 0
