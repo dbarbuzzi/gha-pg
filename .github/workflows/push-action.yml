@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: fails but continues
+        id: coe
         run: exit 1
         continue-on-error: true
       - name: passes
-        run: exit 0
+        run: echo "${{ steps.coe.outcome }}"
