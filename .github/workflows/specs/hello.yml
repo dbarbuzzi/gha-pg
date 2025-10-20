@@ -1,0 +1,10 @@
+name: checking out comparisons with 'none'
+
+on: [push]
+
+jobs:
+  HELLO-WORLD:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Greetings, earthling!
+        run: echo "Hello, World!"
