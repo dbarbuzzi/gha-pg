@@ -9,6 +9,9 @@ on:
       parent_label:
         type: string
         required: true
+      common:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       parent_runner:
@@ -17,12 +20,17 @@ on:
       parent_label:
         type: string
         required: true
+      common:
+        type: string
+        required: true
 
 jobs:
   PARENT-MAIN:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v9.0.0
 
       - name: parent - show "github"
         env:
@@ -40,6 +48,7 @@ jobs:
       - name: Show retrigger command
         uses: ./.github/actions/show-retrigger-command
         with:
+          workflow-file: parent.yml
           workflow-inputs: ${{ toJson(inputs) }}
 
   PARENT-SPAWN:
@@ -47,3 +56,4 @@ jobs:
     with:
       child_runner: really-fast
       child_label: bolt
+      common: slurm

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.12"
+# dependencies = [
+#     "pyyaml>=6.0.3",
+# ]
 # ///
 """Print a command to retrigger the workflow to the GitHub Actions summary.
 
@@ -32,11 +35,10 @@ class Config:
 
     @staticmethod
     def from_args(args: argparse.Namespace) -> "Config":
-        workflow_file = args.workflow_ref.split("@", maxsplit=1)[0].split("/")[-1]
         return Config(
             repo=args.repo,
             ref=args.ref,
-            workflow_file=workflow_file,
+            workflow_file=args.workflow_file,
             inputs=args.inputs,
         )
 
@@ -52,7 +54,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--ref", required=True, help="git ref used in the workflow")
     parser.add_argument(
-        "--workflow-ref", required=True, help="Value from ${{ github.workflow_ref }}"
+        "--workflow-file", required=True, help="Filename of workflow to be retriggered"
     )
     parser.add_argument(
         "--inputs",
@@ -62,7 +64,21 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_retrigger_command(config: Config) -> str:
+def get_input_names(workflow_file: str) -> list[str]:
+    file = Path("./.github/workflows").joinpath(workflow_file)
+    with file.open() as f:
+        data = safe_load(f)
+
+    # pyyaml uses yaml 1.1 so even 'on' as a map key is parsed as 'True'
+    if "workflow_dispatch" not in data[True]:
+        raise ValueError(
+            f"workflow '{workflow_file}' is not dispatchable - does not contain a 'workflow_dispatch' trigger"
+        )
+
+    return data[True]["workflow_dispatch"]["inputs"].keys()
+
+
+def build_retrigger_command(config: Config, input_names: list[str]) -> str:
     lines: list[str] = [
         f"gh workflow run {config.workflow_file} \\",
         f"    --repo {config.repo} \\",

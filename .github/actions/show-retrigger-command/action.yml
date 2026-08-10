@@ -2,6 +2,9 @@ name: Show retrigger command
 description: Add a section to the workflow’s summary to show a command to retrigger it
 
 inputs:
+  workflow-file:
+    description: filename of the workflow to be retriggered
+    required: true
   workflow-inputs:
     description: JSON object of the inputs passed to the workflow
     required: true
@@ -14,12 +17,12 @@ runs:
       ACTION_PATH: ${{ github.action_path }}
       REPO: ${{ github.repository }}
       REF: ${{ github.ref_name }}
-      WF_REF: ${{ github.workflow_ref }}
+      WF_FILE: ${{ inputs.workflow-file }}
       WF_INPUTS: ${{ inputs.workflow-inputs }}
     run: |-
       "${ACTION_PATH}"/show-retrigger-command.py \
         --repo "${REPO}" \
         --ref "${REF}" \
-        --workflow-ref "${WF_REF}" \
+        --workflow-file "${WF_FILE}" \
         --inputs "${WF_INPUTS}" >> "${GITHUB_STEP_SUMMARY}"
     shell: bash

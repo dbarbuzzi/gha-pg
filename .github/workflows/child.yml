@@ -9,6 +9,9 @@ on:
       child_label:
         type: string
         required: true
+      common:
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       child_runner:
@@ -17,12 +20,17 @@ on:
       child_label:
         type: string
         required: true
+      common:
+        type: string
+        required: true
 
 jobs:
   CHILD-MAIN:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v9.0.0
 
       - name: parent - show "github"
         env:
@@ -40,4 +48,5 @@ jobs:
       - name: Show retrigger command
         uses: ./.github/actions/show-retrigger-command
         with:
+          workflow-file: child.yml
           workflow-inputs: ${{ toJson(inputs) }}
