@@ -1,10 +1,45 @@
 name: child
 
-on: [workflow_call, workflow_dispatch]
+on:
+  workflow_call:
+    inputs:
+      child_runner:
+        type: string
+        required: true
+      child_label:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      child_runner:
+        type: string
+        required: true
+      child_label:
+        type: string
+        required: true
 
 jobs:
-
   CHILD-MAIN:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - name: parent - show "github"
+        env:
+          TARGET: ${{ toJson(github) }}
+        run: echo -e "${TARGET}"
+
+      - name: parent - show "env"
+        env:
+          TARGET: ${{ toJson(env) }}
+        run: echo -e "${TARGET}"
+
+      - name: parent - show "input"
+        env:
+          TARGET: ${{ toJson(inputs) }}
+        run: echo -e "${TARGET}"
+
+      - name: Show retrigger command
+        uses: ./.github/actions/show-retrigger-command
+        with:
+          workflow-inputs: ${{ toJson(inputs) }}
