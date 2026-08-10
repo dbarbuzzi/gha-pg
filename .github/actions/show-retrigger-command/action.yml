@@ -1,0 +1,26 @@
+name: Show retrigger command
+description: Add a section to the workflow’s summary to show a command to retrigger it. Requires `uv``.
+
+inputs:
+  workflow-file:
+    description: filename of the workflow to be retriggered
+    required: true
+  workflow-inputs:
+    description: JSON object of the inputs passed to the workflow
+    required: true
+
+runs:
+  using: composite
+  steps:
+  - name: Show retrigger command
+    env:
+      ACTION_PATH: ${{ github.action_path }}
+      REPO: ${{ github.repository }}
+      WF_FILE: ${{ inputs.workflow-file }}
+      WF_INPUTS: ${{ inputs.workflow-inputs }}
+    run: |-
+      uv run "${ACTION_PATH}"/show-retrigger-command.py \
+        --repo "${REPO}" \
+        --workflow-file "${WF_FILE}" \
+        --inputs "${WF_INPUTS}" >> "${GITHUB_STEP_SUMMARY}"
+    shell: bash

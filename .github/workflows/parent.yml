@@ -1,10 +1,59 @@
 name: parent
 
-on: [workflow_call, workflow_dispatch]
+on:
+  workflow_call:
+    inputs:
+      parent_runner:
+        type: string
+        required: true
+      parent_label:
+        type: string
+        required: false
+      common:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      parent_runner:
+        type: string
+        required: true
+      parent_label:
+        type: string
+        required: false
+      common:
+        type: string
+        required: true
 
 jobs:
-
   PARENT-MAIN:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v9.0.0
+
+      - name: parent - show "github"
+        env:
+          TARGET: ${{ toJson(github) }}
+        run: echo -e "${TARGET}"
+
+      - name: parent - show "env"
+        run: env | sort
+
+      - name: parent - show "inputs"
+        env:
+          TARGET: ${{ toJson(inputs) }}
+        run: echo -e "${TARGET}"
+
+      - name: Show retrigger command
+        uses: ./.github/actions/show-retrigger-command
+        with:
+          workflow-file: parent.yml
+          workflow-inputs: ${{ toJson(inputs) }}
+
+  PARENT-SPAWN:
+    uses: ./.github/workflows/child.yml
+    with:
+      child_runner: really-fast
+      child_label: bolt
+      common: slurm

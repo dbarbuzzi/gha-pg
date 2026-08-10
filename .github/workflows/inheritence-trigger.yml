@@ -1,0 +1,10 @@
+on:
+  pull_request:
+  push:
+
+jobs:
+  TRIGGER-PARENT:
+    uses: ./.github/workflows/parent.yml
+    with:
+      parent_runner: "github.event_name: ${{ github.event_name }}"
+      common: mom
