@@ -1,0 +1,10 @@
+name: child
+
+on: [workflow_call, workflow_dispatch]
+
+jobs:
+
+  CHILD-MAIN:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
