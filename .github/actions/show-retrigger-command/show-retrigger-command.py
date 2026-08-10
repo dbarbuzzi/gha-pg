@@ -88,6 +88,7 @@ def build_retrigger_command(config: Config, input_names: list[str]) -> str:
         f"    --ref {config.ref} \\",
     ]
     for k, v in json.loads(config.inputs).items():
+        print(f"{k=} in {input_names=}? {k in input_names=}")
         if k not in input_names:
             continue
         if isinstance(v, bool):
@@ -117,5 +118,6 @@ if __name__ == "__main__":
     args = parse_args()
     config = Config.from_args(args)
     input_names = get_input_names(config.workflow_file)
+    print(f"{input_names=}")
     retrigger_command = build_retrigger_command(config=config, input_names=input_names)
     print_retrigger_summary(retrigger_command)
