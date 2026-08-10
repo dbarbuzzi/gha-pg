@@ -22,6 +22,7 @@ options:
 
 import argparse
 import json
+import os
 import shlex
 from dataclasses import dataclass
 from pathlib import Path
@@ -32,7 +33,6 @@ from yaml import safe_load
 @dataclass
 class Config:
     repo: str
-    ref: str
     workflow_file: str
     inputs: str
 
@@ -40,10 +40,17 @@ class Config:
     def from_args(args: argparse.Namespace) -> "Config":
         return Config(
             repo=args.repo,
-            ref=args.ref,
             workflow_file=args.workflow_file,
             inputs=args.inputs,
         )
+
+    @property
+    def ref(self) -> str:
+        # if GITHUB_HEAD_REF is set, it's a PR and the one we want
+        if (ref := os.environ.get("GITHUB_HEAD_REF", "")):
+            return ref
+        # otherwise, GITHUB_HEAD_REF is empty and we want GITHUB_REF_NAME
+        return os.environ.get("GITHUB_REF_NAME", "")
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,7 +62,6 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Name of the repository where the workflow was run",
     )
-    parser.add_argument("--ref", required=True, help="git ref used in the workflow")
     parser.add_argument(
         "--workflow-file", required=True, help="Filename of workflow to be retriggered"
     )
@@ -94,7 +100,7 @@ def build_retrigger_command(config: Config, input_names: list[str]) -> str:
         if isinstance(v, bool):
             v = str(v).lower()
         elif len(v) == 0:
-            v = ""
+            v = '""'
         flag_value = shlex.quote(f"{k}={v}")
         lines.append(f"    -f {flag_value} \\")
 

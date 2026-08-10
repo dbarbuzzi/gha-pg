@@ -16,13 +16,11 @@ runs:
     env:
       ACTION_PATH: ${{ github.action_path }}
       REPO: ${{ github.repository }}
-      REF: ${{ github.ref_name }}
       WF_FILE: ${{ inputs.workflow-file }}
       WF_INPUTS: ${{ inputs.workflow-inputs }}
     run: |-
       uv run "${ACTION_PATH}"/show-retrigger-command.py \
         --repo "${REPO}" \
-        --ref "${REF}" \
         --workflow-file "${WF_FILE}" \
         --inputs "${WF_INPUTS}" >> "${GITHUB_STEP_SUMMARY}"
     shell: bash
