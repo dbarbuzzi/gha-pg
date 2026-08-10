@@ -30,11 +30,9 @@ jobs:
         run: echo -e "${TARGET}"
 
       - name: parent - show "env"
-        env:
-          TARGET: ${{ toJson(env) }}
-        run: echo -e "${TARGET}"
+        run: env | sort
 
-      - name: parent - show "input"
+      - name: parent - show "inputs"
         env:
           TARGET: ${{ toJson(inputs) }}
         run: echo -e "${TARGET}"
