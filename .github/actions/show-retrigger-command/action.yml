@@ -1,5 +1,5 @@
 name: Show retrigger command
-description: Add a section to the workflow’s summary to show a command to retrigger it
+description: Add a section to the workflow’s summary to show a command to retrigger it. Requires `uv``.
 
 inputs:
   workflow-file:
@@ -20,7 +20,7 @@ runs:
       WF_FILE: ${{ inputs.workflow-file }}
       WF_INPUTS: ${{ inputs.workflow-inputs }}
     run: |-
-      "${ACTION_PATH}"/show-retrigger-command.py \
+      uv run "${ACTION_PATH}"/show-retrigger-command.py \
         --repo "${REPO}" \
         --ref "${REF}" \
         --workflow-file "${WF_FILE}" \

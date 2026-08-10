@@ -24,6 +24,9 @@ import argparse
 import json
 import shlex
 from dataclasses import dataclass
+from pathlib import Path
+
+from yaml import safe_load
 
 
 @dataclass
@@ -85,6 +88,8 @@ def build_retrigger_command(config: Config, input_names: list[str]) -> str:
         f"    --ref {config.ref} \\",
     ]
     for k, v in json.loads(config.inputs).items():
+        if k not in input_names:
+            continue
         if isinstance(v, bool):
             v = str(v).lower()
         elif len(v) == 0:
@@ -111,5 +116,6 @@ def print_retrigger_summary(command: str):
 if __name__ == "__main__":
     args = parse_args()
     config = Config.from_args(args)
-    retrigger_command = build_retrigger_command(config)
+    input_names = get_input_names(config.workflow_file)
+    retrigger_command = build_retrigger_command(config=config, input_names=input_names)
     print_retrigger_summary(retrigger_command)
